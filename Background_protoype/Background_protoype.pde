@@ -1,7 +1,10 @@
-
+int lineSeed = 9909;
 
 int screenX = 1491;
 int screenY = 700;
+int startTime = millis();
+int timeToReset = 5000;
+int timePassed = millis();
 
 void settings() {
   size(screenX, screenY);
@@ -9,37 +12,84 @@ void settings() {
 
 void setup() {
   background( 82, 85, 144);
-  line1();
-  smallStars();
+
 }
+
+void refresh() {
+  timePassed = millis();
+  println(timePassed-startTime);
+  if (timePassed - startTime >= timeToReset) {
+    lineSeed = (int)random(0, 100000);
+
+
+    startTime = millis();
+  }
+  line1();
+  line2();
+  smallStars();
+  bigStars();
+}
+
+
 
 void draw() {
-   
+  println("test");
+  refresh();
+  fill( 82, 85, 144, 3);
+  rect(0, 0, screenX, screenY);
 }
 
+
 void smallStars() {
-  int lineWidth = 10;
+  randomSeed(lineSeed);
+  int amount = 10;//needs rework
   noStroke();
 
   for (int i = 1; i <= screenX; i++) {
-    for (int j = -lineWidth; j <= lineWidth; j++) {
-      fill( 255, 255, 255, 255-(abs(j*25)));
+    for (int j = -amount; j <= amount; j++) {
+      fill( 255, 255, 255, (255-(abs(j*25)))/100);
       rect(i, (int)random(1, screenY+1), 1, 1);
-    
+    }
+  }
+}
+
+
+void bigStars() {
+  randomSeed(lineSeed);
+  int amount =1;
+  noStroke();
+
+  for (int i = 1; i <= screenX; i++) {
+    for (int j = 0; j < amount; j++) {
+      fill( 255, 255, 255, (255-(abs(j*25)))/100);
+      rect(i, (int)random(1, screenY+1), (int)random(2,4), (int)random(2,4));
     }
   }
 }
 
 void line1() {
+  randomSeed(lineSeed);
   int lineWidth = 50;
   int LineRegidity = 5;
   int previousYPos = screenY/2 + (int)random(-(screenY/2), (screenY/2));
   noStroke();
-  println("run");
   for (int i = 1; i <= screenX; i++) {
     for (int j = -lineWidth; j <= lineWidth; j++) {
-      fill( 119, 82, 144, 255-(abs(j*(255/lineWidth))));
-
+      fill( 82, 85, 144, (255-(abs(j*(255/lineWidth))))/30);
+      rect(i, previousYPos+j, 1, 1);
+    }
+    previousYPos = previousYPos + (int)random(-(lineWidth/LineRegidity), (lineWidth/LineRegidity) );
+  }
+}
+void line2() {
+  randomSeed(lineSeed);
+  int lineWidth = 100;
+  int LineRegidity =15;
+  int previousYPos = screenY/2 + (int)random(-(screenY/2), (screenY/2));
+  noStroke();
+  for (int i = 1; i <= screenX; i++) {
+    for (int j = -lineWidth; j <= lineWidth; j++) {
+      fill( 82, 85, 144, (255-(abs(j*(255/lineWidth))))/30);
       rect(i, previousYPos+j, 1, 1);
     }
     previousYPos = previousYPos + (int)random(-(lineWidth/LineRegidity), (lineWidth/LineRegidity) );
