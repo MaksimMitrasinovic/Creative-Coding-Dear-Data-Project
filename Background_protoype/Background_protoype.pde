@@ -12,7 +12,6 @@ void settings() {
 
 void setup() {
   background( 82, 85, 144);
-
 }
 
 void refresh() {
@@ -28,12 +27,13 @@ void refresh() {
   line2();
   smallStars();
   bigStars();
+  brightStars();
 }
 
 
 
 void draw() {
-  println("test");
+
   refresh();
   fill( 82, 85, 144, 3);
   rect(0, 0, screenX, screenY);
@@ -62,7 +62,7 @@ void bigStars() {
   for (int i = 1; i <= screenX; i++) {
     for (int j = 0; j < amount; j++) {
       fill( 255, 255, 255, (255-(abs(j*25)))/100);
-      rect(i, (int)random(1, screenY+1), (int)random(2,4), (int)random(2,4));
+      rect(i, (int)random(1, screenY+1), (int)random(2, 4), (int)random(2, 4));
     }
   }
 }
@@ -93,5 +93,20 @@ void line2() {
       rect(i, previousYPos+j, 1, 1);
     }
     previousYPos = previousYPos + (int)random(-(lineWidth/LineRegidity), (lineWidth/LineRegidity) );
+  }
+}
+
+void brightStars(){
+  int amount = 10; //Smaller num means less stars
+  fill(255,240,75,10);
+  randomSeed(lineSeed);
+  for(int i = 0; i <= screenX; i++){
+    for (int j = 0; j <= screenY; j++){
+      int drawChance = (int)random(0,100000);
+      if (drawChance <= amount){
+       int size = (int)random(3,5);
+       rect(i,j, size,size);
+      }
+    }
   }
 }
