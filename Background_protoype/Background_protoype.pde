@@ -6,6 +6,16 @@ int startTime = millis();
 int timeToReset = 5000;
 int timePassed = millis();
 
+int starX = 0;
+int starY = 400;
+int speedX = 60;
+int speedY = -10;
+int accelX = 0;
+int accelY = 1;
+
+
+
+
 void settings() {
   size(screenX, screenY);
 }
@@ -16,7 +26,7 @@ void setup() {
 
 void refresh() {
   timePassed = millis();
-  println(timePassed-startTime);
+
   if (timePassed - startTime >= timeToReset) {
     lineSeed = (int)random(0, 100000);
 
@@ -37,6 +47,8 @@ void draw() {
   refresh();
   fill( 82, 85, 144, 3);
   rect(0, 0, screenX, screenY);
+  shootingStar();
+  println(int(frameRate));
 }
 
 
@@ -96,17 +108,30 @@ void line2() {
   }
 }
 
-void brightStars(){
+void brightStars() {
   int amount = 10; //Smaller num means less stars
-  fill(255,240,75,10);
+  fill(255, 240, 75, 10);
   randomSeed(lineSeed);
-  for(int i = 0; i <= screenX; i++){
-    for (int j = 0; j <= screenY; j++){
-      int drawChance = (int)random(0,100000);
-      if (drawChance <= amount){
-       int size = (int)random(3,5);
-       rect(i,j, size,size);
+  for (int i = 0; i <= screenX; i++) {
+    for (int j = 0; j <= screenY; j++) {
+      int drawChance = (int)random(0, 100000);
+      if (drawChance <= amount) {
+        int size = (int)random(3, 5);
+        rect(i, j, size, size);
       }
     }
+  }
+}
+
+void shootingStar() {
+  
+  if (starX < screenX) {
+    fill(255,255,255);
+    rect(starX,starY,speedX,4);
+    speedX += accelX;
+    starX += speedX;
+    speedY += accelY;
+    starY += speedY;
+
   }
 }
