@@ -22,6 +22,7 @@ void settings() {
 
 void setup() {
   background( 82, 85, 144);
+  frameRate(30);   
 }
 
 void refresh() {
@@ -33,8 +34,8 @@ void refresh() {
 
     startTime = millis();
   }
-  //line1();
-  //line2();
+  line1();
+  line2();
   smallStars();
   bigStars();
   brightStars();
@@ -79,27 +80,29 @@ void bigStars() {
 void line1() {
   randomSeed(lineSeed);
   int lineWidth = 50;
-  int LineRegidity = 5;
+  int LineRegidity = 2;
+  int lineXDist = 20;
   int previousYPos = screenY/2 + (int)random(-(screenY/2), (screenY/2));
   noStroke();
-  for (int i = 1; i <= screenX; i++) {
+  for (int i = 1; i <= screenX; i = i + lineXDist) {
     for (int j = -lineWidth; j <= lineWidth; j++) {
       fill( 82, 85, 144, (255-(abs(j*(255/lineWidth))))/30);
-      rect(i, previousYPos+j, 1, 1);
+      rect(i, previousYPos+j, lineXDist, 1);
     }
     previousYPos = previousYPos + (int)random(-(lineWidth/LineRegidity), (lineWidth/LineRegidity) );
   }
 }
 void line2() {
-  randomSeed(lineSeed);
-  int lineWidth = 100;
-  int LineRegidity =15;
+randomSeed(lineSeed);
+  int lineWidth = 50;
+  int LineRegidity = 2;
+  int lineXDist = 20;
   int previousYPos = screenY/2 + (int)random(-(screenY/2), (screenY/2));
   noStroke();
-  for (int i = 1; i <= screenX; i++) {
+  for (int i = 1; i <= screenX; i = i + lineXDist) {
     for (int j = -lineWidth; j <= lineWidth; j++) {
       fill( 82, 85, 144, (255-(abs(j*(255/lineWidth))))/30);
-      rect(i, previousYPos+j, 1, 1);
+      rect(i, previousYPos+j, lineXDist, 1);
     }
     previousYPos = previousYPos + (int)random(-(lineWidth/LineRegidity), (lineWidth/LineRegidity) );
   }
