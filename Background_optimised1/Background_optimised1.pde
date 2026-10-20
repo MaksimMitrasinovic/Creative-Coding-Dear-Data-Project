@@ -54,7 +54,7 @@ void refresh() {
 void draw() {
 
   refresh();
-  fill( 82, 85, 144, 3);
+  fill( 82, 85, 144, 7);
   rect(0, 0, screenX, screenY);
   //shootingStar();
   helpButton();
