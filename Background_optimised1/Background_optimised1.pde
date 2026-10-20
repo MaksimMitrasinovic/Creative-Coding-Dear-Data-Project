@@ -8,12 +8,19 @@ int timePassed = millis();
 
 int starX = 0;
 int starY = 400;
-int speedX = 60;
+int speedX = 20;
 int speedY = -10;
 int accelX = 0;
 int accelY = 1;
 
+boolean mouseReady = true;
+boolean showScale = false;
+boolean scalesUsed = false;
 
+  int scaleLineWidth = 5;
+int xScaleWidth = screenX/7;
+
+String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
 
 void settings() {
@@ -22,7 +29,8 @@ void settings() {
 
 void setup() {
   background( 82, 85, 144);
-  frameRate(30);   
+  frameRate(30);
+  textAlign(CENTER, CENTER);
 }
 
 void refresh() {
@@ -49,9 +57,76 @@ void draw() {
   fill( 82, 85, 144, 3);
   rect(0, 0, screenX, screenY);
   //shootingStar();
+  helpButton();
   println(int(frameRate));
 }
 
+
+void helpButton() {
+  int posX = screenX-20;
+  int posY = 20;
+  int size = 25;
+  stroke(2);
+  fill(255);
+  circle(posX, posY, size);
+  fill(0);
+  textSize(size);
+  text("?", posX, posY);
+  buttonCheck(posX, posY, size);
+  if (showScale == true) {
+    scales();
+    scalesUsed = true;
+  }
+  else if (scalesUsed == true){//showScale == false
+  scalesHide();
+  scalesUsed= false;
+  }
+
+
+
+}
+
+void scales() {
+  noStroke();
+  for (int i = 1; i <= 7; i ++) {
+    if (i < 7) {
+      fill( 110, 85, 170, 80);
+      rect(i*xScaleWidth, 0, scaleLineWidth, screenY);
+    }
+    fill(255, 80);
+    text(days[i-1], (i*xScaleWidth)-60, 30);
+  }
+}
+void scalesHide(){
+  noStroke();
+  for (int i = 1; i <= 7; i ++) {
+    if (i < 7) {
+      fill(  82, 85, 144);
+      rect(i*xScaleWidth, 0, scaleLineWidth, screenY);
+    }
+    fill( 82, 85, 144);
+    textSize(30);
+    rectMode(CENTER);
+    rect((i*xScaleWidth)-60, 30,50,25);
+    rectMode(CORNER);
+  }
+}
+
+
+
+void buttonCheck(int xCoord, int yCoord, int maxDist) {  //Need to alter if I decide to use multiple buttons
+  if (mousePressed && mouseReady == true) {
+    mouseReady = false;
+
+    if (dist(mouseX, mouseY, xCoord, yCoord) <= maxDist) {
+      showScale = !showScale;
+    }
+  }
+}
+
+void mouseReleased() {
+  mouseReady = true;
+}
 
 void smallStars() {
   randomSeed(lineSeed);
@@ -68,7 +143,7 @@ void smallStars() {
 void bigStars() {
 
   randomSeed(lineSeed);
-  int amount = 3000;//needs rework
+  int amount = 3000;
   noStroke();
 
   for (int i = 1; i <= amount; i++) {
@@ -93,7 +168,7 @@ void line1() {
   }
 }
 void line2() {
-randomSeed(lineSeed);
+  randomSeed(lineSeed);
   int lineWidth = 50;
   int LineRegidity = 2;
   int lineXDist = 20;
@@ -121,7 +196,7 @@ void brightStars() {
 
 
 void shootingStar() {
-
+  println(starX);
   if (starX < screenX) {
     fill(255, 255, 255);
     rect(starX, starY, speedX, 4);
@@ -129,5 +204,8 @@ void shootingStar() {
     starX += speedX;
     speedY += accelY;
     starY += speedY;
+  } else {
+    starX=0;
+    speedY = -10;
   }
 }
