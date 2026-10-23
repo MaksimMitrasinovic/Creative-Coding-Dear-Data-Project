@@ -10,31 +10,20 @@ void setup() {
 }
 
 void draw() {
-  //fill(0,0,125);
-  //rect(xPos,yPos,xWidth,yWidth);
-  //fill(0);
-  //ellipse(xPos,yPos,xWidth,yWidth);
-  //ellipse(xPos+xWidth,yPos,xWidth,yWidth);
- // ellipse(xPos,yPos+yWidth,xWidth,yWidth);
-  //ellipse(xPos+xWidth,yPos+yWidth,xWidth,yWidth);
-  starShape();
+  starShape(10, 150, 200, 80, 100, 255, 255, 0, 30, 255, 2);
 }
 
-void starShape(){
-  fill(255,255,0);
-  stroke(255);
-  strokeWeight(2);
-  int depth = 10;
-  int middleX = 150;
-  int middleY = 200;
-  int sizeX = 80;
-  int sizeY = 100;
+void starShape(int depth, int middleX, int middleY, int sizeX, int sizeY, int r, int g, int b, int opacity, int stroCol, int stroWei) {
+  fill(r, g, b, opacity);
+  stroke(stroCol);
+  strokeWeight(stroWei);
+
   beginShape();
-   vertex(middleX,middleY-sizeY);
-   quadraticVertex(middleX-depth,middleY-depth,middleX-sizeX,middleY);
-   quadraticVertex(middleX-depth,middleY+depth,middleX,middleY+sizeY);
-   quadraticVertex(middleX+depth,middleY+depth,middleX+sizeX,middleY);
-   quadraticVertex(middleX+depth,middleY-depth,middleX,middleY-sizeY);
-   
+  vertex(middleX, middleY-sizeY);
+  quadraticVertex(middleX-depth, middleY-depth, middleX-sizeX, middleY);
+  quadraticVertex(middleX-depth, middleY+depth, middleX, middleY+sizeY);
+  quadraticVertex(middleX+depth, middleY+depth, middleX+sizeX, middleY);
+  quadraticVertex(middleX+depth, middleY-depth, middleX, middleY-sizeY);
+
   endShape(CLOSE);
 }
