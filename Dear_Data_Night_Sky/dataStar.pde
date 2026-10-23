@@ -11,7 +11,7 @@ class dataStar {
   int stroCol;
   int stroWei;
 
-  dataStar(int newMiddleX, int newMiddleY, int newDepth, int newSizeX, int newSizeY, int newR, int newG, int newB, int newOpacity, int newStroCol, int newStroWei) {
+  dataStar(int newMiddleX, int newMiddleY, int newSizeX, int newSizeY, int newDepth, int newR, int newG, int newB, int newOpacity, int newStroCol, int newStroWei) {
     middleX = newMiddleX;
     middleY = newMiddleY;
     sizeX = newSizeX;

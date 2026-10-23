@@ -25,7 +25,7 @@ void setup() {
   textAlign(CENTER, CENTER);
   xScaleWidth = width/7;
   yScaleWidth = height/5;
-  testStar = new dataStar(150, 200, 10, 80, 100, 255, 255, 0, 30, 255, 2);
+  testStar = new dataStar(150, 200, 80, 100, 10, 255, 255, 0, 30, 255, 2);
 }
 
 
