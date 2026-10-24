@@ -16,6 +16,8 @@ String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 String[] scaleNumbers= { "01.00", "24.30", "24.00", "23.30", "23.00", };//Will be using processed values when enough data collected
 
 dataStar testStar;
+stellarLine line1;
+stellarLine line2;
 
 
 void setup() {
@@ -25,46 +27,58 @@ void setup() {
   textAlign(CENTER, CENTER);
   xScaleWidth = width/7;
   yScaleWidth = height/5;
-  testStar = new dataStar(150, 200, 80, 100, 10, 255, 255, 0, 30, 255, 2);
+  testStar = new dataStar(150, 200, 20, 25, 5, 255, 255, 0, 20, 255, 1);
+  line1 = new stellarLine(50, 30, 100);
+    line2 = new stellarLine(50, 30, 100);
 }
 
 
 void draw() {
-
+  println(int(frameRate));
   refresh();
+
+  smallStars();
+  bigStars();
+  brightStars();
+
   fill( 82, 85, 144, 7);
   rect(0, 0, width, height);
+
   helpButton();
-  println(int(frameRate));
+
   testStar.display();
+  line1.display();
+  line2.display();
 }
 
 void refresh() {
+
+
   timePassed = millis();
   if (timePassed - startTime >= timeToReset) {
     lineSeed = (int)random(0, 100000);
     startTime = millis();
+    line1 = new stellarLine(50, 30, 100);
+      line2 = new stellarLine(50, 30, 100);
   }
-  smallStars();
-  bigStars();
-  brightStars();
 }
 
 void helpButton() {
   int posX = 20;
   int posY = 20;
   int size = 25;
-  stroke(2);
+ noStroke();
   fill(255);
   circle(posX, posY, size);
   fill(0);
   textSize(size);
+ 
   text("?", posX, posY);
   buttonCheck(posX, posY, size);
   if (showScale == true) {
     scales();
     scalesUsed = true;
-  } else if (scalesUsed == true) {//showScale == false
+  } else if (scalesUsed == true) {
     scalesHide();
     scalesUsed= false;
   }
