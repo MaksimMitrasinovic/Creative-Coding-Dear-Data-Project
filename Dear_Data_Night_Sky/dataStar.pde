@@ -1,6 +1,7 @@
 class dataStar {
+  int column;
   int middleX;
-  int middleY;
+  float middleY;
   int sizeX;
   int sizeY;
   int depth;
@@ -11,11 +12,12 @@ class dataStar {
   int stroCol;
   int stroWei;
 
-  dataStar(int newMiddleX, int newMiddleY, int newSizeX, int newSizeY, int newDepth, int newR, int newG, int newB, int newOpacity, int newStroCol, int newStroWei) {
-    middleX = newMiddleX;
+  dataStar(int newColumn, float newMiddleY, int newSizeX, int newSizeY, int newDepth, int newR, int newG, int newB, int newOpacity, int newStroCol, int newStroWei) {
     middleY = newMiddleY;
     sizeX = newSizeX;
     sizeY = newSizeY;
+    column = newColumn;
+    middleX = (int)random(xScaleWidth*column+sizeX,xScaleWidth*(column+1)-sizeX);
     depth = newDepth;
     r = newR;
     g = newG;

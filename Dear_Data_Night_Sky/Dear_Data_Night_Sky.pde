@@ -13,12 +13,18 @@ int xScaleWidth;
 int yScaleWidth;
 
 String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-String[] scaleNumbers= { "01.00", "24.30", "24.00", "23.30", "23.00", };//Will be using processed values when enough data collected
+String[] scaleNumbers= { "01.00", "24.00", "23.00", "22.00", "21.00", };//Will be using processed values when enough data collected
 
-dataStar testStar;
+int startHour = 21;
+
+String[] sleepDataRaw;
+float[][] sleepDataProcessed;
+
 stellarLine line1;
 stellarLine line2;
+dataStar testStar;
 
+dataStar[] dataStars;
 
 void setup() {
   size(1491, 700);
@@ -27,16 +33,38 @@ void setup() {
   textAlign(CENTER, CENTER);
   xScaleWidth = width/7;
   yScaleWidth = height/5;
-  testStar = new dataStar(150, 200, 20, 25, 5, 255, 255, 0, 20, 255, 1);
   line1 = new stellarLine(50, 30, 100);
-    line2 = new stellarLine(50, 30, 100);
+  line2 = new stellarLine(50, 30, 100);
+  testStar = new dataStar(1, 200, 20, 25, 5, 255, 255, 0, 20, 255, 1);
+
+  sleepDataRaw = loadStrings("sleepDataUsable.csv");
+  sleepDataProcessed = new float[sleepDataRaw.length][2];
+
+  for (int i = 0; i < sleepDataRaw.length; i ++) {
+    String[] tokenA = split(sleepDataRaw[i], ",");
+    float[] tokenB = {parseFloat(tokenA[0]), parseFloat(tokenA[1])};
+    sleepDataProcessed[i][0] = tokenB[0];
+    sleepDataProcessed[i][1] = tokenB[1];
+  }
+  dataStars = new dataStar[sleepDataProcessed.length*2];
+  for(int i = 0; i < sleepDataProcessed.length; i++){
+   int day = i % 7;
+   float starHeight = (sleepDataProcessed[i][0] - startHour + 24) % 24;
+   starHeight = height - (starHeight*yScaleWidth);
+   dataStars[i*2] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 125, 20, 255, 1);
+   starHeight = (sleepDataProcessed[i][1] - startHour + 24) % 24;
+   starHeight = height - (starHeight*yScaleWidth);
+   dataStars[(i*2)+1] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 0, 20, 255, 1);
+   
+    
+  }
+  
 }
 
 
 void draw() {
-  println(int(frameRate));
+  //println(int(frameRate));
   refresh();
-
   smallStars();
   bigStars();
   brightStars();
@@ -46,9 +74,12 @@ void draw() {
 
   helpButton();
 
-  testStar.display();
   line1.display();
   line2.display();
+  testStar.display();
+  for (int i=0; i<dataStars.length;i++){
+  dataStars[i].display();
+  }
 }
 
 void refresh() {
@@ -59,7 +90,7 @@ void refresh() {
     lineSeed = (int)random(0, 100000);
     startTime = millis();
     line1 = new stellarLine(50, 30, 100);
-      line2 = new stellarLine(50, 30, 100);
+    line2 = new stellarLine(50, 30, 100);
   }
 }
 
@@ -67,12 +98,12 @@ void helpButton() {
   int posX = 20;
   int posY = 20;
   int size = 25;
- noStroke();
+  noStroke();
   fill(255);
   circle(posX, posY, size);
   fill(0);
   textSize(size);
- 
+
   text("?", posX, posY);
   buttonCheck(posX, posY, size);
   if (showScale == true) {
