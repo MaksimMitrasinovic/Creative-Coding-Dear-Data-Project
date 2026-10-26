@@ -36,13 +36,13 @@ class stellarLine {
     stroke(82, 85, 144,10);
     strokeWeight(lineWidth/4);
     beginShape();
-
-    for (int i = 0; i <= bendAmount; i++) {
-      vertex(xPositions[i], yPositions[i]);
+vertex(xPositions[0], yPositions[0]);
+    for (int i = 1; i <= bendAmount; i+=2) {
+      quadraticVertex(xPositions[i], yPositions[i],xPositions[i+1], yPositions[i+1]);
     }
-
-    for (int i = bendAmount; i >= 0; i--) {
-      vertex(xPositions[i], yPositions[i]+lineWidth);
+vertex(xPositions[bendAmount], yPositions[bendAmount]+lineWidth);
+    for (int i = bendAmount-1; i >= 0; i-=2) {
+      quadraticVertex(xPositions[i], yPositions[i]+lineWidth,xPositions[i-1], yPositions[i-1]+lineWidth);
     }
     endShape(CLOSE);
   }
