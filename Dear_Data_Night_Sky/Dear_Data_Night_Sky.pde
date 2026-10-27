@@ -29,7 +29,7 @@ dataStar[] dataStars;
 void setup() {
   size(1491, 700);
   background( 82, 85, 144);
-  frameRate(30);
+  frameRate(35);
   textAlign(CENTER, CENTER);
   xScaleWidth = width/7;
   yScaleWidth = height/5;
@@ -47,23 +47,20 @@ void setup() {
     sleepDataProcessed[i][1] = tokenB[1];
   }
   dataStars = new dataStar[sleepDataProcessed.length*2];
-  for(int i = 0; i < sleepDataProcessed.length; i++){
-   int day = i % 7;
-   float starHeight = (sleepDataProcessed[i][0] - startHour + 24) % 24;
-   starHeight = height - (starHeight*yScaleWidth);
-   dataStars[i*2] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 125, 20, 255, 1);
-   starHeight = (sleepDataProcessed[i][1] - startHour + 24) % 24;
-   starHeight = height - (starHeight*yScaleWidth);
-   dataStars[(i*2)+1] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 0, 20, 255, 1);
-   
-    
+  for (int i = 0; i < sleepDataProcessed.length; i++) {
+    int day = i % 7;
+    float starHeight = (sleepDataProcessed[i][0] - startHour + 24) % 24;
+    starHeight = height - (starHeight*yScaleWidth);
+    dataStars[i*2] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 125, 20, 255, 1);
+    starHeight = (sleepDataProcessed[i][1] - startHour + 24) % 24;
+    starHeight = height - (starHeight*yScaleWidth);
+    dataStars[(i*2)+1] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 0, 20, 255, 1);
   }
-  
 }
 
 
 void draw() {
-  //println(int(frameRate));
+  println(int(frameRate));
   refresh();
   smallStars();
   bigStars();
@@ -77,8 +74,8 @@ void draw() {
   line1.display();
   line2.display();
   testStar.display();
-  for (int i=0; i<dataStars.length;i++){
-  dataStars[i].display();
+  for (int i=0; i<dataStars.length; i++) {
+    dataStars[i].display();
   }
 }
 
@@ -119,7 +116,7 @@ void scales() {
   noStroke();
   for (int i = 1; i <= 7; i ++) {
     if (i < 7) {
-      fill( 110, 85, 170, 80);
+      fill( 130, 85, 170, 140);
       rect(i*xScaleWidth, 0, scaleLineWidth, height);
     }
     textSize(30);
@@ -128,7 +125,7 @@ void scales() {
   }
   for (int i = 1; i <= 5; i ++) {
     if (i < 5) {
-      fill( 95, 85, 170, 90);
+      fill( 110, 85, 170, 150);
       rect(0, i*yScaleWidth, width, scaleLineWidth);
     }
     textSize(17);
