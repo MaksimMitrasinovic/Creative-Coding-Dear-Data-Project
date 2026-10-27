@@ -13,12 +13,16 @@ int xScaleWidth;
 int yScaleWidth;
 
 String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-String[] scaleNumbers= { "01.00", "24.00", "23.00", "22.00", "21.00", };//Will be using processed values when enough data collected
+float[] scaleNumbers;//Will be using processed values when enough data collected= { 01.00, 24.00, 23.00, 22.00, 21.00, }
 
 int startHour = 21;
 
 String[] sleepDataRaw;
+
 float[][] sleepDataProcessed;
+
+float smallestTime = 99;
+float largestTime=0;
 
 stellarLine line1;
 stellarLine line2;
@@ -30,22 +34,46 @@ void setup() {
   background( 82, 85, 144);
   frameRate(35);
   textAlign(CENTER, CENTER);
-  
+
   xScaleWidth = width/7;
   yScaleWidth = height/5;
-  
+
   line1 = new stellarLine(50, 30, 100);
   line2 = new stellarLine(50, 30, 100);
-  
+
   sleepDataRaw = loadStrings("sleepDataUsable.csv");
   sleepDataProcessed = new float[sleepDataRaw.length][2];
 
   for (int i = 0; i < sleepDataRaw.length; i ++) {
     String[] tokenA = split(sleepDataRaw[i], ",");
-    float[] tokenB = {parseFloat(tokenA[0]), parseFloat(tokenA[1])};
-    sleepDataProcessed[i][0] = tokenB[0];
-    sleepDataProcessed[i][1] = tokenB[1];
+    if (((parseFloat(tokenA[0]) - 12 + 24) % 24) < smallestTime) {
+      smallestTime = floor((parseFloat(tokenA[0]) - 12 + 24) % 24);
+    }
+    if (((parseFloat(tokenA[1]) - 12 + 24) % 24) < smallestTime) {
+      smallestTime = floor((parseFloat(tokenA[0]) - 12 + 24) % 24);
+    }
+    if (((parseFloat(tokenA[0]) - 12 + 24) % 24) > largestTime) {
+      largestTime = floor((parseFloat(tokenA[0]) - 12 + 24) % 24);
+    }
+    if (((parseFloat(tokenA[1]) - 12 + 24) % 24) > largestTime) {
+      largestTime = floor((parseFloat(tokenA[1]) - 12 + 24) % 24);
+    }
+
+    sleepDataProcessed[i][0] =  parseFloat(tokenA[0]);
+    sleepDataProcessed[i][1] = parseFloat(tokenA[1]);
   }
+  int minBound = (int)smallestTime + 12;
+  int maxBound = (int)largestTime + 12;
+  startHour = minBound;
+  
+
+  scaleNumbers = new float[maxBound-minBound+1];
+  yScaleWidth = height/(1+maxBound-minBound);
+
+  for (int i = maxBound-minBound; i >= 0; i--) {
+    scaleNumbers[i] = (i+minBound)%24;
+  }
+
   dataStars = new dataStar[sleepDataProcessed.length*2];
   for (int i = 0; i < sleepDataProcessed.length; i++) {
     int day = i % 7;
@@ -60,7 +88,7 @@ void setup() {
 
 
 void draw() {
-  println(int(frameRate));
+  //println(int(frameRate));
   refresh();
   smallStars();
   bigStars();
@@ -114,14 +142,16 @@ void helpButton() {
 void scales() {
   noStroke();
 
-  for (int i = 1; i <= 5; i ++) {
-    if (i < 5) {
+  for (int i = 1; i <= scaleNumbers.length; i ++) {
+    if (i <  scaleNumbers.length) {
       fill( 110, 85, 170, 150);
       rect(0, i*yScaleWidth, width, scaleLineWidth);
     }
+  }
+  for (int i = 1; i <= scaleNumbers.length; i ++) {
     textSize(17);
     fill(255, 80);
-    text(scaleNumbers[i-1], 30, (i*yScaleWidth)-10);
+    text(String.format("%05.2f", scaleNumbers[scaleNumbers.length-(i)]), 30, (i*yScaleWidth)-10);
   }
   for (int i = 1; i <= 7; i ++) {
     if (i < 7) {
@@ -147,8 +177,8 @@ void scalesHide() {
     rect((i*xScaleWidth)-30, 30, 50, 25);
     rectMode(CORNER);
   }
-  for (int i = 1; i <= 5; i ++) {
-    if (i < 5) {
+  for (int i = 1; i <= scaleNumbers.length; i ++) {
+    if (i < scaleNumbers.length) {
       fill(  82, 85, 144);
       rect(0, i*yScaleWidth, width, scaleLineWidth);
     }
