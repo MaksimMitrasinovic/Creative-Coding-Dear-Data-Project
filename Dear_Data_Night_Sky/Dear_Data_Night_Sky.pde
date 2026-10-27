@@ -8,7 +8,7 @@ boolean mouseReady = true;
 boolean showScale = false;
 boolean scalesUsed = false;
 
-int scaleLineWidth = 5;
+int scaleLineWidth = 6;
 int xScaleWidth;
 int yScaleWidth;
 
@@ -22,7 +22,6 @@ float[][] sleepDataProcessed;
 
 stellarLine line1;
 stellarLine line2;
-dataStar testStar;
 
 dataStar[] dataStars;
 
@@ -31,12 +30,13 @@ void setup() {
   background( 82, 85, 144);
   frameRate(35);
   textAlign(CENTER, CENTER);
+  
   xScaleWidth = width/7;
   yScaleWidth = height/5;
+  
   line1 = new stellarLine(50, 30, 100);
   line2 = new stellarLine(50, 30, 100);
-  testStar = new dataStar(1, 200, 20, 25, 5, 255, 255, 0, 20, 255, 1);
-
+  
   sleepDataRaw = loadStrings("sleepDataUsable.csv");
   sleepDataProcessed = new float[sleepDataRaw.length][2];
 
@@ -73,7 +73,6 @@ void draw() {
 
   line1.display();
   line2.display();
-  testStar.display();
   for (int i=0; i<dataStars.length; i++) {
     dataStars[i].display();
   }
@@ -114,15 +113,7 @@ void helpButton() {
 
 void scales() {
   noStroke();
-  for (int i = 1; i <= 7; i ++) {
-    if (i < 7) {
-      fill( 130, 85, 170, 140);
-      rect(i*xScaleWidth, 0, scaleLineWidth, height);
-    }
-    textSize(30);
-    fill(255, 80);
-    text(days[i-1], (i*xScaleWidth)-30, 30);
-  }
+
   for (int i = 1; i <= 5; i ++) {
     if (i < 5) {
       fill( 110, 85, 170, 150);
@@ -131,6 +122,15 @@ void scales() {
     textSize(17);
     fill(255, 80);
     text(scaleNumbers[i-1], 30, (i*yScaleWidth)-10);
+  }
+  for (int i = 1; i <= 7; i ++) {
+    if (i < 7) {
+      fill( 130, 85, 170, 140);
+      rect(i*xScaleWidth, 0, scaleLineWidth, height);
+    }
+    textSize(30);
+    fill(255, 80);
+    text(days[i-1], (i*xScaleWidth)-30, 30);
   }
 }
 
