@@ -24,6 +24,8 @@ float[][] sleepDataProcessed;
 float smallestTime = 99;
 float largestTime=0;
 
+int sequencerPosX = 1;
+
 stellarLine line1;
 stellarLine line2;
 
@@ -88,11 +90,13 @@ void setup() {
 
 
 void draw() {
-  //println(int(frameRate));
+  println(int(frameRate));
+  
   refresh();
   smallStars();
   bigStars();
   brightStars();
+  sequencer();
 
   fill( 82, 85, 144, 7);
   rect(0, 0, width, height);
@@ -240,4 +244,14 @@ void brightStars() {
   for (int i = 1; i <= amount; i++) {
     rect((int)random(0, width), (int)random(0, height), (int)random(4, 5), (int)random(4, 5));
   }
+}
+
+void sequencer(){
+  if (sequencerPosX <= width){
+    sequencerPosX += 1;
+  }else{
+    sequencerPosX = 0;
+  }
+  fill(255,100);
+  rect(sequencerPosX,0,1,height);
 }
