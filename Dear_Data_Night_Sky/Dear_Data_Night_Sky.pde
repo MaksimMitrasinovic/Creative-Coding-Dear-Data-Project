@@ -29,6 +29,8 @@ int sequencerPosX = 1;
 stellarLine line1;
 stellarLine line2;
 
+shootingStar shootingS1;
+
 dataStar[] dataStars;
 
 void setup() {
@@ -42,6 +44,8 @@ void setup() {
 
   line1 = new stellarLine(50, 30, 100);
   line2 = new stellarLine(50, 30, 100);
+
+  shootingS1 = new shootingStar();
 
   sleepDataRaw = loadStrings("sleepDataUsable.csv");
   sleepDataProcessed = new float[sleepDataRaw.length][2];
@@ -67,7 +71,7 @@ void setup() {
   int minBound = (int)smallestTime + 12;
   int maxBound = (int)largestTime + 12;
   startHour = minBound;
-  
+
 
   scaleNumbers = new float[maxBound-minBound+1];
   yScaleWidth = height/(1+maxBound-minBound);
@@ -90,8 +94,8 @@ void setup() {
 
 
 void draw() {
-  println(int(frameRate));
-  
+  //println(int(frameRate));
+
   refresh();
   smallStars();
   bigStars();
@@ -105,6 +109,8 @@ void draw() {
 
   line1.display();
   line2.display();
+  shootingS1.display();
+
   for (int i=0; i<dataStars.length; i++) {
     dataStars[i].display();
   }
@@ -117,8 +123,13 @@ void refresh() {
   if (timePassed - startTime >= timeToReset) {
     lineSeed = (int)random(0, 100000);
     startTime = millis();
+
     line1 = new stellarLine(50, 30, 100);
     line2 = new stellarLine(50, 30, 100);
+
+    if (shootingS1.posY > width) {
+      shootingS1 = new shootingStar();
+    }
   }
 }
 
@@ -246,12 +257,12 @@ void brightStars() {
   }
 }
 
-void sequencer(){
-  if (sequencerPosX <= width){
+void sequencer() {
+  if (sequencerPosX <= width) {
     sequencerPosX += 1;
-  }else{
+  } else {
     sequencerPosX = 0;
   }
-  fill(255,100);
-  rect(sequencerPosX,0,1,height);
+  fill(255, 100);
+  rect(sequencerPosX, 0, 1, height);
 }
