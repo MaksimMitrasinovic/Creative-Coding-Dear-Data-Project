@@ -1,4 +1,4 @@
-int lineSeed = 9909;
+int lineSeed = (int)random(0,999999999);
 
 int startTime = millis();
 int timeToReset = 5000;
@@ -94,7 +94,7 @@ void setup() {
 
 
 void draw() {
-  //println(int(frameRate));
+  println(int(frameRate));
 
   refresh();
   smallStars();
@@ -265,4 +265,6 @@ void sequencer() {
   }
   fill(255, 100);
   rect(sequencerPosX, 0, 1, height);
+  fill(82, 85, 144,240);
+  rect(sequencerPosX-5, 0, 1, height);
 }

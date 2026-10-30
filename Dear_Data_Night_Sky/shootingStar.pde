@@ -35,7 +35,7 @@ class shootingStar {
     posY += velocityY;
     if (millis() - startTime > 10000){
       posY = width + 100;
-      print("manual reset");
+      //print("manual reset");
     }
   }
 }
