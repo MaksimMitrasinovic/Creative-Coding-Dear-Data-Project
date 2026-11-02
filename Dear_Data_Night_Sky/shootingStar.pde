@@ -16,9 +16,9 @@ class shootingStar {
     opacity = (int)random(200, 250);
     posY = (int)random(0, height);
     accelerationX = (float)random(0, 1);
-    accelerationY = (float)random(0, 1);
+    accelerationY = (float)random(0.25, 0.35);
     velocityX = (float)random(10, 20);
-    velocityY = (float)random(-20, -10);
+    velocityY = (float)random(-10, -8);
     oldX = posX;
     oldY = posY;
   }
