@@ -52,18 +52,23 @@ void setup() {
 
   for (int i = 0; i < sleepDataRaw.length; i ++) {
     String[] tokenA = split(sleepDataRaw[i], ",");
-    if (((parseFloat(tokenA[0]) - 12 + 24) % 24) < smallestTime) {
-      smallestTime = floor((parseFloat(tokenA[0]) - 12 + 24) % 24);
+    float tokenAProc = timeProcessing(tokenA[0], 12);
+    if (tokenAProc < smallestTime) {
+      smallestTime = tokenAProc;
     }
-    if (((parseFloat(tokenA[1]) - 12 + 24) % 24) < smallestTime) {
-      smallestTime = floor((parseFloat(tokenA[0]) - 12 + 24) % 24);
+    if (tokenAProc > largestTime) {
+      largestTime = tokenAProc;
     }
-    if (((parseFloat(tokenA[0]) - 12 + 24) % 24) > largestTime) {
-      largestTime = floor((parseFloat(tokenA[0]) - 12 + 24) % 24);
+    tokenAProc = timeProcessing(tokenA[1], 12);
+    if (tokenAProc < smallestTime) {
+      smallestTime = tokenAProc;
     }
-    if (((parseFloat(tokenA[1]) - 12 + 24) % 24) > largestTime) {
-      largestTime = floor((parseFloat(tokenA[1]) - 12 + 24) % 24);
+    if (tokenAProc > largestTime) {
+      largestTime = tokenAProc;
     }
+
+
+
 
     sleepDataProcessed[i][0] =  parseFloat(tokenA[0]);
     sleepDataProcessed[i][1] = parseFloat(tokenA[1]);
@@ -86,7 +91,7 @@ void setup() {
     float starHeight = (sleepDataProcessed[i][0] - startHour + 24) % 24;
     starHeight = height - (starHeight*yScaleWidth);
     dataStars[i*2] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 125, 20, 255, 1);
-    starHeight = (sleepDataProcessed[i][1] - startHour + 24) % 24;
+    starHeight = timeProcessing(str(sleepDataProcessed[i][1]), startHour);
     starHeight = height - (starHeight*yScaleWidth);
     dataStars[(i*2)+1] = new dataStar(day, starHeight, 20, 25, 5, 255, 255, 0, 20, 255, 1);
   }
@@ -271,4 +276,8 @@ void sequencer() {
     fill(82, 85, 144, 240);
     rect(sequencerPosX-5, 0, 1, height);
   }
+}
+
+float timeProcessing(String inpTime, int beginTime) {
+  return (parseFloat(inpTime) - beginTime + 24) % 24;
 }
