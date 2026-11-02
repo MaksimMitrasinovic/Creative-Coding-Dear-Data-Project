@@ -1,4 +1,4 @@
-int lineSeed = (int)random(0,999999999);
+int lineSeed = (int)random(0, 999999999);
 
 int startTime = millis();
 int timeToReset = 5000;
@@ -203,6 +203,8 @@ void scalesHide() {
     rect( 30, (i*yScaleWidth)-10, 50, 20);
     rectMode(CORNER);
   }
+  fill(82, 85, 144);
+  rect(sequencerPosX-10, 0, 11, height);
 }
 
 
@@ -263,8 +265,10 @@ void sequencer() {
   } else {
     sequencerPosX = 0;
   }
-  fill(255, 100);
-  rect(sequencerPosX, 0, 1, height);
-  fill(82, 85, 144,240);
-  rect(sequencerPosX-5, 0, 1, height);
+  if (showScale == true) {
+    fill(255, 100);
+    rect(sequencerPosX, 0, 1, height);
+    fill(82, 85, 144, 240);
+    rect(sequencerPosX-5, 0, 1, height);
+  }
 }
