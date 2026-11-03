@@ -32,17 +32,17 @@ class stellarLine {
     }
   }
   void display() {
-    fill(200, 85, 144,10);
-    stroke(82, 85, 144,10);
+    fill(200, 85, 144, 5);
+    stroke(82, 85, 144, 6);
     strokeWeight(lineWidth/4);
     beginShape();
-vertex(xPositions[0], yPositions[0]);
+    vertex(xPositions[0], yPositions[0]);
     for (int i = 1; i <= bendAmount; i+=2) {
-      quadraticVertex(xPositions[i], yPositions[i],xPositions[i+1], yPositions[i+1]);
+      quadraticVertex(xPositions[i], yPositions[i], xPositions[i+1], yPositions[i+1]);
     }
-vertex(xPositions[bendAmount], yPositions[bendAmount]+lineWidth);
+    vertex(xPositions[bendAmount], yPositions[bendAmount]+lineWidth);
     for (int i = bendAmount-1; i >= 0; i-=2) {
-      quadraticVertex(xPositions[i], yPositions[i]+lineWidth,xPositions[i-1], yPositions[i-1]+lineWidth);
+      quadraticVertex(xPositions[i], yPositions[i]+lineWidth, xPositions[i-1], yPositions[i-1]+lineWidth);
     }
     endShape(CLOSE);
   }

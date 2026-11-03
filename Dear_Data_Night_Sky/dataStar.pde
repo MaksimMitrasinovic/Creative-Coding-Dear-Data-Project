@@ -17,7 +17,7 @@ class dataStar {
     sizeX = newSizeX;
     sizeY = newSizeY;
     column = newColumn;
-    middleX = (int)random(xScaleWidth*column+sizeX,xScaleWidth*(column+1)-sizeX);
+    middleX = (int)random(xScaleWidth*column+sizeX, xScaleWidth*(column+1)-sizeX);
     depth = newDepth;
     r = newR;
     g = newG;

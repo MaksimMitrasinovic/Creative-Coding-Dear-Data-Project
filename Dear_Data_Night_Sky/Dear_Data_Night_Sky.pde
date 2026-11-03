@@ -160,7 +160,7 @@ void resetButton() {
   int posY = height - 20;
   int size = 25;
   noStroke();
-  fill(214,0,79);
+  fill(214, 0, 79);
   circle(posX, posY, size);
   fill(0);
   textSize(size);
