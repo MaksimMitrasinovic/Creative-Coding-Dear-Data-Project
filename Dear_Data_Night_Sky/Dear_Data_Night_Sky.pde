@@ -13,8 +13,7 @@ int xScaleWidth;
 int yScaleWidth;
 
 String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-float[] scaleNumbers;//Will be using processed values when enough data collected= { 01.00, 24.00, 23.00, 22.00, 21.00, }
-
+float[] scaleNumbers;
 int startHour = 21;
 
 String[] sleepDataRaw;
@@ -67,16 +66,12 @@ void setup() {
       largestTime = tokenAProc;
     }
 
-
-
-
     sleepDataProcessed[i][0] =  parseFloat(tokenA[0]);
     sleepDataProcessed[i][1] = parseFloat(tokenA[1]);
   }
   int minBound = (int)smallestTime + 12;
   int maxBound = (int)largestTime + 12;
   startHour = minBound;
-
 
   scaleNumbers = new float[maxBound-minBound+1];
   yScaleWidth = height/(1+maxBound-minBound);
@@ -111,7 +106,7 @@ void draw() {
   rect(0, 0, width, height);
 
   helpButton();
-
+  resetButton();
   line1.display();
   line2.display();
   shootingS1.display();
@@ -121,9 +116,8 @@ void draw() {
   }
 }
 
+
 void refresh() {
-
-
   timePassed = millis();
   if (timePassed - startTime >= timeToReset) {
     lineSeed = (int)random(0, 100000);
@@ -138,6 +132,7 @@ void refresh() {
   }
 }
 
+
 void helpButton() {
   int posX = 20;
   int posY = 20;
@@ -149,7 +144,7 @@ void helpButton() {
   textSize(size);
 
   text("?", posX, posY);
-  buttonCheck(posX, posY, size);
+  buttonCheck(posX, posY, size, "help");
   if (showScale == true) {
     scales();
     scalesUsed = true;
@@ -159,9 +154,23 @@ void helpButton() {
   }
 }
 
+
+void resetButton() {
+  int posX = width - 20;
+  int posY = height - 20;
+  int size = 25;
+  noStroke();
+  fill(214,0,79);
+  circle(posX, posY, size);
+  fill(0);
+  textSize(size);
+  text("X", posX, posY);
+  buttonCheck(posX, posY, size, "reset");
+}
+
+
 void scales() {
   noStroke();
-
   for (int i = 1; i <= scaleNumbers.length; i ++) {
     if (i <  scaleNumbers.length) {
       fill( 110, 85, 170, 150);
@@ -213,12 +222,17 @@ void scalesHide() {
 }
 
 
-void buttonCheck(int xCoord, int yCoord, int maxDist) {
+void buttonCheck(int xCoord, int yCoord, int maxDist, String func) {
   if (mousePressed && mouseReady == true) {
-    mouseReady = false;
-
     if (dist(mouseX, mouseY, xCoord, yCoord) <= maxDist) {
-      showScale = !showScale;
+      if (func == "help") {
+        showScale = !showScale;
+        mouseReady = false;
+      } else if (func == "reset") {
+        fill( 82, 85, 144);
+        rect(0, 0, width, height);
+        mouseReady = false;
+      }
     }
   }
 }
@@ -227,6 +241,7 @@ void buttonCheck(int xCoord, int yCoord, int maxDist) {
 void mouseReleased() {
   mouseReady = true;
 }
+
 
 void smallStars() {
   randomSeed(lineSeed);
@@ -264,6 +279,7 @@ void brightStars() {
   }
 }
 
+
 void sequencer() {
   if (sequencerPosX <= width) {
     sequencerPosX += 1;
@@ -277,6 +293,7 @@ void sequencer() {
     rect(sequencerPosX-5, 0, 1, height);
   }
 }
+
 
 float timeProcessing(String inpTime, int beginTime) {
   return (parseFloat(inpTime) - beginTime + 24) % 24;
